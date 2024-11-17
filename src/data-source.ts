@@ -1,19 +1,20 @@
 // src/data-source.ts
 import { DataSource } from 'typeorm';
-import { User } from './entity/User'; // Adjust the path and entity as needed
+import { User } from './entity/User';  // Import your entities
 
 export const AppDataSource = new DataSource({
-  type: 'mysql',
-  host: 'localhost',
+  type: "mysql",
+  host: "localhost",
   port: 3306,
-  username: 'root',
-  password: 'admin',
-  database: 'hris',
-  synchronize: true, // Set to false in production and use migrations
+  username: "root",  // Use your MySQL username
+  password: "",  // Use your MySQL password
+  database: "hris",  // Your database name
+  synchronize: true,  // Set to false for migrations
   logging: true,
-  entities: [User],  // Add your entities here
-  subscribers: [],
-  migrations: [],
+  entities: [User], // List of your entities
+migrations: ["src/migration/**/*.ts"],
+  subscribers: ["src/subscriber/**/*.ts"]
+
 });
 
 AppDataSource.initialize()
