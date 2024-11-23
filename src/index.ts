@@ -1,31 +1,13 @@
-import "reflect-metadata";
-import express from "express";
-import { AppDataSource } from "./data-source";  // Import AppDataSource
-import { User } from "./entity/User";
-import { Repository } from "typeorm";
+import express, { Application } from 'express';
+import userRoutes from './routes/userRoutes';  // Import your routes
 
-const app = express();
+const app: Application = express();
 
-// Initialize the data source (connection)
-AppDataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
+app.use(express.json());  // Middleware to parse JSON request bodies
 
-    // Set up routes to interact with the database
-    app.get("/users", async (req, res) => {
-      try {
-        const userRepository: Repository<User> = AppDataSource.getRepository(User);
-        const users = await userRepository.find();
-        res.json(users);
-      } catch (error) {
-        res.status(500).json({ message: "Error fetching users", error });
-      }
-    });
+// Use the user routes
+app.use('/api', userRoutes);  // Mount the user routes on the '/api' path
 
-    app.listen(3000, () => {
-      console.log("Server is running on port 3001");
-    });
-  })
-  .catch((err) => {
-    console.error("Error during Data Source initialization", err);
-  });
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.3",
     "express": "^4.21.1",
     "mysql2": "^3.11.4",
     "reflect-metadata": "^0.2.2",
@@ -22,6 +23,7 @@
     "@types/node": "^22.9.0",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2"
   }
 }

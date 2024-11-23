@@ -11,10 +11,9 @@ export const AppDataSource = new DataSource({
   database: "hris",  // Your database name
   synchronize: true,  // Set to false for migrations
   logging: true,
-  entities: [User], // List of your entities
-migrations: ["src/migration/**/*.ts"],
-  subscribers: ["src/subscriber/**/*.ts"]
-
+  entities: [__dirname + '/entity/**/*.ts'], // Ensure the path is correct
+  migrations: [__dirname + '/migration/**/*.ts'], // Ensure the path is correct
+  subscribers: [__dirname + '/subscriber/**/*.ts'] // Ensure the path is correct
 });
 
 AppDataSource.initialize()
