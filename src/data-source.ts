@@ -16,10 +16,7 @@ export const AppDataSource = new DataSource({
   subscribers: [__dirname + '/subscriber/**/*.ts'] // Ensure the path is correct
 });
 
+
 AppDataSource.initialize()
-  .then(() => {
-    console.log('Data Source has been initialized!');
-  })
-  .catch((err) => {
-    console.error('Error during Data Source initialization', err);
-  });
+  .then(() => console.log("Data Source has been initialized"))
+  .catch((error) => console.error("Error initializing Data Source", error));
