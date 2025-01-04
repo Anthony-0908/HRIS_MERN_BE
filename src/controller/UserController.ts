@@ -27,7 +27,7 @@ export const getAllUsers = async(req:Request ,res:Response) => {
 }
 
 
-export const getOneUser = async(req:Request, res:Response) =>  
+export const getOneUser = async(req:Request, res:Response): Promise<void> =>  
 {
   const {id} = req.params
   const userRepository = AppDataSource.getRepository(User)
@@ -36,10 +36,12 @@ export const getOneUser = async(req:Request, res:Response) =>
     const user = await userRepository.findOneBy({id:parseInt(id)})
 
     if(!user) { 
-      return res.status(404).json({messge:'User not found'})
+      res.status(404).json({messge:'User not found'})
+      return
     }
     else {
-      return res.status(200).json(user)
+      res.status(200).json(user)
+      return 
     }
   } catch (error) {
     res.status(500).json({message:'Error retrieving users' ,error})
@@ -49,7 +51,7 @@ export const getOneUser = async(req:Request, res:Response) =>
 
 
 // Controller to create a user
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response): Promise<void> => {
   const userRepository = AppDataSource.getRepository(User);
   const user = new User();
   user.name = req.body.name;
@@ -60,7 +62,8 @@ export const createUser = async (req: Request, res: Response) => {
           const saltRounds = 10; // Cost factor for bcrypt
           user.password = await bcrypt.hash(req.body.password, saltRounds);
       } else {
-        return res.status(400).json({message: "Password is required"})
+        res.status(400).json({message: "Password is required"})
+        return 
       }
 
       const savedUser = await userRepository.save(user);
@@ -76,25 +79,35 @@ export const createUser = async (req: Request, res: Response) => {
 };
   
 
-export const deletUser = async(req:Request, res:Response) =>  
-  {
-    const {id} = req.params
-    const userRepository = AppDataSource.getRepository(User)
-    
-    try {
-      const userToDelete = await userRepository.findOneBy({id:parseInt(id)})
+export const deleteUser = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  const userRepository = AppDataSource.getRepository(User);
   
-      if(!userToDelete) { 
-        return res.status(404).json({messge:'User not found'})
+  try {
+      // Check if user exists by finding the user based on the given id
+      const userToDelete = await userRepository.findOneBy({ id: parseInt(id, 10) });
+
+      // If no user is found, return 404
+      if (!userToDelete) {
+        res.status(404).json({ message: 'User not found' });
+        return 
       }
+
+      // If user is found, remove the user
       await userRepository.remove(userToDelete);
-    } catch (error) {
-      res.status(500).json({message:'Error retrieving users' ,error})
-    }
+
+      // Return success response
+      res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+      // Log the error for debugging
+      console.error('Error deleting user:', error);
+
+      // Return 500 status for server errors
+      res.status(500).json({ message: 'Error deleting user', error });
   }
+};
 
-
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response):Promise<void> => {
     const { id } = req.params;
     const userRepository = AppDataSource.getRepository(User);
 
@@ -102,7 +115,8 @@ export const updateUser = async (req: Request, res: Response) => {
         const userToUpdate = await userRepository.findOneBy({ id: parseInt(id) });
 
         if (!userToUpdate) {
-            return res.status(404).json({ message: 'User not found' });
+          res.status(404).json({ message: 'User not found' });
+            return 
         }
 
         if (req.body.name) {

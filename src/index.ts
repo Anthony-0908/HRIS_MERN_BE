@@ -8,7 +8,7 @@ const app: Application = express();
 app.use(express.json());  // Middleware to parse JSON request bodies
 app.use(cors());
 // Use the user routes
-app.use('/api', userRoutes);  // Mount the user routes on the '/api' path
+app.use('/api/User', userRoutes);  // Mount the user routes on the '/api' path
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
