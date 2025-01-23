@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getAllUsers, createUser, getOneUser, deleteUser, updateUser } from '../controller/UserController';
 
+
 const router = Router();
 
 // Route to get all users
@@ -17,5 +18,8 @@ router.put('/userUpdate/:id', updateUser);
 
 // Route to delete a user by ID
 router.delete('/userDelete/:id', deleteUser);
+
+
+
 
 export default router;
