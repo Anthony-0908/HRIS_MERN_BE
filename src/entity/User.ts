@@ -7,6 +7,9 @@ export class User {
   id!: number;
 
   @Column()
+  employeeId!:string
+
+  @Column()
   name!: string;
 
   @Column()
@@ -14,4 +17,22 @@ export class User {
 
   @Column()
   password!:string;
+
+  @Column()
+  address!:string;
+
+  @Column() 
+  contactNumber!:number;
+
+  @Column()
+  position!:number
+
+  @Column() 
+  department!:number
+
+  @Column()
+  salaryGrade!:number
+
+
+
 }
