@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 
 
-interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
   user?: { id: string; username: string }; // Define the `user` property
 }
 
@@ -27,7 +27,9 @@ export const authenticate = (
   } catch (err) {
     res.status(401).json({ message: "Invalid token" });
   }
-};
+
+}
+
 
 // Route
 export const getUserProfile = (req: AuthenticatedRequest, res: Response): void => {
@@ -38,3 +40,4 @@ export const getUserProfile = (req: AuthenticatedRequest, res: Response): void =
 
   res.json({ message: "Profile data", user: req.user });
 };
+

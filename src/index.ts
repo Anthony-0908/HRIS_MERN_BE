@@ -6,6 +6,14 @@ import userauth from './routes/authRoutes'
 
 const app: Application = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:3000", // React app URL
+    credentials: true, // Allow cookies
+    methods: "GET,POST,PUT,DELETE",
+  })
+);
+
 app.use(express.json());  // Middleware to parse JSON request bodies
 app.use(cors());
 // Use the user routes
