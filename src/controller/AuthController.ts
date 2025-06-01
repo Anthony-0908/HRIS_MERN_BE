@@ -32,7 +32,7 @@ export const login = async (
     }
 
     console.log('Password to compare:', password);
-    console.log('Stored hash:', user.password);
+    console.log('Storeds hash:', user.password);
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
